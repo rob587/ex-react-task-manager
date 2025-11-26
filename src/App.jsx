@@ -1,5 +1,21 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import DefaultLayout from "../layout/DefaultLayout";
+import TaskList from "./pages/TaskList";
+import AddTask from "./pages/AddTask";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<DefaultLayout />}>
+            <Route index element={<TaskList />} />
+            <Route path="" element={<AddTask />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
