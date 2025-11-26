@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DefaultLayout from "../layout/DefaultLayout";
+import DefaultLayout from "./layout/DefaultLayout";
 import TaskList from "./pages/TaskList";
 import AddTask from "./pages/AddTask";
 
