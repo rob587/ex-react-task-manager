@@ -6,6 +6,10 @@ import TaskRow from "../components/TaskRow";
 const TaskList = () => {
   const { tasks } = useContext(TaskContext);
 
+  if (!tasks) {
+    return <p className="text-center">Caricamento task in corso...</p>;
+  }
+
   return (
     <>
       <div className="container">
