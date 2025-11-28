@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import useTasks from "../components/useTasks";
 
 const API_URL = import.meta.env.VITE_API_URL; //
 
@@ -6,6 +7,8 @@ export const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
+
+  const taskData = useTasks();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -26,6 +29,6 @@ export const TaskProvider = ({ children }) => {
   }, []);
 
   return (
-    <TaskContext.Provider value={{ tasks }}>{children}</TaskContext.Provider>
+    <TaskContext.Provider value={{ taskData }}>{children}</TaskContext.Provider>
   );
 };
