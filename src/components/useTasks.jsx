@@ -22,9 +22,25 @@ function useTasks() {
     fetchTasks();
   }, []);
 
-  const addTask = () => {
-    console.log("Add Task chiamata");
+  const addTask = async (taskToAdd) => {
+    const res = await fetch(`${API_URL}/tasks`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(taskToAdd),
+    });
+    const result = await res.json();
+    if (result.success) {
+      setTasks((prevTasks) => [...prevTasks, result.task]);
+      return true;
+    } else {
+      throw new Error(
+        result.message || "Errore sconosciuto durante l/inserimento della task"
+      );
+    }
   };
+
   const removeTask = () => {
     console.log("Remove Task chiamata");
   };

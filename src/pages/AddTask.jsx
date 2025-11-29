@@ -1,15 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
+import { TaskContext } from "../context/TaskContext";
+import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
+
+  const { addTask } = useContext(TaskContext);
+  const navigate = useNavigate();
 
   const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`~";
 
   const inputDescriptionRef = useRef();
   const inputSelectRef = useRef();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) {
       setError("Il nome del task non può essere vuoto");
@@ -31,10 +36,16 @@ const AddTask = () => {
     const newTask = {
       title: title,
       description: descrizione,
-      status: status,
-      createdAt: new Date().toISOString(),
+      status: select,
     };
-    console.log("Oggetto Task pronto:", newTask);
+
+    try {
+      await addTask(newTask);
+      console.log("Task aggiunto con successo!");
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
