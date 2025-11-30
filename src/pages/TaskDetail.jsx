@@ -1,12 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { TaskContext } from "../context/TaskContext";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useTasks from "../components/useTasks";
+import Modal from "../components/Modal";
 
 const TaskDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { removeTask } = useTasks();
+  const [showModal, setShowModal] = useState(false);
 
   const taskData = useContext(TaskContext);
   const { tasks, isLoading } = taskData || { tasks: [], isLoading: true };
@@ -16,8 +18,9 @@ const TaskDetail = () => {
   const handleDelete = async () => {
     try {
       await removeTask(task.id);
-      alert("Task eliminato con successo!");
+
       navigate("/");
+      setShowModal(false);
     } catch (error) {
       alert(error.message);
     }
@@ -39,6 +42,16 @@ const TaskDetail = () => {
     );
   }
 
+  const handleDeleteClick = () => {
+    console.log("Apertura modale");
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    console.log("chiusura modale");
+    setShowModal(false);
+  };
+
   return (
     <>
       <div className="container">
@@ -54,7 +67,7 @@ const TaskDetail = () => {
                   Stato: {task.status} | Data:{" "}
                   {new Date(task.createdAt).toLocaleDateString("it-IT")}.
                 </p>
-                <button className="btn btn-danger" onClick={handleDelete}>
+                <button className="btn btn-danger" onClick={handleDeleteClick}>
                   Elimina Task
                 </button>
               </div>
@@ -62,6 +75,13 @@ const TaskDetail = () => {
           </div>
         </div>
       </div>
+      <Modal
+        show={showModal}
+        title={"Conferma Eliminazione"}
+        content={"Sei sicuro di voler eliminare la task?"}
+        onClose={handleCloseModal}
+        onConfirm={handleDelete}
+      ></Modal>
     </>
   );
 };
