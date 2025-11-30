@@ -2,6 +2,7 @@ import React from "react";
 import { useContext, useMemo } from "react";
 import { TaskContext } from "../context/TaskContext";
 import TaskRow from "../components/TaskRow";
+import TaskDetail from "./TaskDetail";
 
 const TaskList = () => {
   const { tasks } = useContext(TaskContext);
@@ -23,7 +24,7 @@ const TaskList = () => {
         <div className="row">
           <div className="col-12">
             {tasks.length > 0 ? (
-              <table className="table table-striped ">
+              <table className="table table-striped table-hover align-middle ">
                 <thead>
                   <tr>
                     <th scope="col">Task</th>

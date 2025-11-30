@@ -5,9 +5,9 @@ const NavigationBar = () => {
     <>
       <h1 className="d-flex justify-content-center">Task Manager</h1>
       <nav className="navbar navbar-expand-lg ">
-        <div className="container-fluid d-flex justify-content-around">
+        <div className="container-fluid d-flex justify-content-around ">
           <div>
-            <ul className="navbar-nav">
+            <ul className="navbar-nav ">
               <li className="nav-item">
                 <Link className="nav-link active" aria-current="page" to="/">
                   TaskList

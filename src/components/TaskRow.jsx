@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const TaskRow = React.memo(({ task }) => {
   const getStatusClass = (status) => {
     switch (status) {
@@ -15,7 +15,9 @@ const TaskRow = React.memo(({ task }) => {
   };
   return (
     <tr>
-      <td>{task.title}</td>
+      <td className="align-middle">
+        <Link to={`/task/${task.id}`}>{task.title}</Link>
+      </td>
       <td className={getStatusClass(task.status)}>{task.status}</td>
       <td>{new Date(task.createdAt).toLocaleDateString("it-IT")}</td>
     </tr>

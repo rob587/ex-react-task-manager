@@ -4,9 +4,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function useTasks() {
   const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchTasks = async () => {
+      console.log("URL usato per fetch:", `${API_URL}/tasks`);
       try {
         const res = await fetch(`${API_URL}/tasks`);
         if (!res.ok) {
@@ -17,6 +19,8 @@ function useTasks() {
         console.log("DATI RECUPERATI ATTRAVERSO HOOK", data);
       } catch (error) {
         console.error("Problema nel recuperare i dati", error);
+      } finally {
+        setIsLoading(false); // <-- AGGIUNGI QUESTO BLOCCO
       }
     };
     fetchTasks();
@@ -48,7 +52,7 @@ function useTasks() {
     console.log("Update Task chiamata");
   };
 
-  return { tasks, addTask, removeTask, updTask };
+  return { tasks, isLoading, addTask, removeTask, updTask };
 }
 
 export default useTasks;
