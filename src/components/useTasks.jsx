@@ -8,7 +8,6 @@ function useTasks() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      console.log("URL usato per fetch:", `${API_URL}/tasks`);
       try {
         const res = await fetch(`${API_URL}/tasks`);
         if (!res.ok) {
@@ -45,9 +44,18 @@ function useTasks() {
     }
   };
 
-  const removeTask = () => {
-    console.log("Remove Task chiamata");
+  const removeTask = async (taskId) => {
+    const res = await fetch(`${API_URL}/tasks/${taskId}`, {
+      method: "DELETE",
+    });
+    const result = await res.json();
+    if (result.success) {
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    } else {
+      throw new Error(result.message);
+    }
   };
+
   const updTask = () => {
     console.log("Update Task chiamata");
   };

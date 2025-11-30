@@ -1,18 +1,26 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { TaskContext } from "../context/TaskContext";
 import React, { useContext } from "react";
+import useTasks from "../components/useTasks";
 
 const TaskDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { removeTask } = useTasks();
 
   const taskData = useContext(TaskContext);
   const { tasks, isLoading } = taskData || { tasks: [], isLoading: true };
 
   const task = tasks.find((t) => t.id === parseInt(id));
 
-  const handleDelete = () => {
-    console.log("Elimino task:", task.title);
+  const handleDelete = async () => {
+    try {
+      await removeTask(task.id);
+      alert("Task eliminato con successo!");
+      navigate("/");
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   if (isLoading) {
