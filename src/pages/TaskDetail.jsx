@@ -28,8 +28,9 @@ const TaskDetail = () => {
   const handleSave = async (updatedTask) => {
     try {
       await updTask(updatedTask);
-      alert('task modificata con successo')
-    } catch {
+      alert("task modificata con successo");
+      setShowEditModal(false);
+    } catch (error) {
       alert(error.message);
     }
   };
@@ -88,6 +89,12 @@ const TaskDetail = () => {
                 </p>
                 <button className="btn btn-danger" onClick={handleDeleteClick}>
                   Elimina Task
+                </button>
+                <button
+                  className="btn btn-warning m-2"
+                  onClick={handleEditClick}
+                >
+                  Modifica task
                 </button>
               </div>
             </div>
