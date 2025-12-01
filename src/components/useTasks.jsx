@@ -56,8 +56,24 @@ function useTasks() {
     }
   };
 
-  const updTask = () => {
-    console.log("Update Task chiamata");
+  const updTask = async (updatedTask) => {
+    const res = await fetch(`${API_URL}/tasks/${updatedTask.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(updatedTask),
+    });
+    const result = await res.json();
+    if (result.success) {
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === result.task.id ? result.task : task
+        )
+      );
+    } else {
+      throw new Error(result.message);
+    }
   };
 
   return { tasks, isLoading, addTask, removeTask, updTask };

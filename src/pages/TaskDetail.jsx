@@ -3,17 +3,35 @@ import { TaskContext } from "../context/TaskContext";
 import React, { useContext, useState } from "react";
 import useTasks from "../components/useTasks";
 import Modal from "../components/Modal";
+import EditTaskModal from "../components/EditTaskModal";
 
 const TaskDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { removeTask } = useTasks();
+  const { removeTask, updTask } = useTasks();
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const taskData = useContext(TaskContext);
   const { tasks, isLoading } = taskData || { tasks: [], isLoading: true };
 
   const task = tasks.find((t) => t.id === parseInt(id));
+
+  const handleEditClick = () => {
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+
+  const handleSave = async (updatedTask) => {
+    try {
+      await updTask(updatedTask);
+    } catch {
+      alert(error.message);
+    }
+  };
 
   const handleDelete = async () => {
     try {
