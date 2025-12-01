@@ -28,6 +28,7 @@ const TaskDetail = () => {
   const handleSave = async (updatedTask) => {
     try {
       await updTask(updatedTask);
+      alert('task modificata con successo')
     } catch {
       alert(error.message);
     }
@@ -100,6 +101,12 @@ const TaskDetail = () => {
         onClose={handleCloseModal}
         onConfirm={handleDelete}
       ></Modal>
+      <EditTaskModal
+        show={showEditModal}
+        onClose={handleCloseEditModal}
+        task={task}
+        onSave={handleSave}
+      />
     </>
   );
 };
