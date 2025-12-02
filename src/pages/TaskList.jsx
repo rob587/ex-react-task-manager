@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useContext, useMemo } from "react";
 import { TaskContext } from "../context/TaskContext";
 import TaskRow from "../components/TaskRow";
-import TaskDetail from "./TaskDetail";
 
 const TaskList = () => {
   const { tasks } = useContext(TaskContext);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSort = (column) => {
     if (column === sortBy) {
@@ -57,6 +57,13 @@ const TaskList = () => {
       </div>
       <div className="container">
         <div className="row">
+          <div className="col-8">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
           <div className="col-12">
             {tasks.length > 0 ? (
               <table className="table table-striped table-hover align-middle ">
