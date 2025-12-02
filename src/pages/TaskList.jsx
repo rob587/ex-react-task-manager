@@ -18,9 +18,12 @@ const TaskList = () => {
     }
   };
 
-  const sortedTasks = useMemo(() => {
+  const filteredAndSortedTasks = useMemo(() => {
     const taskCopy = [...tasks];
-    taskCopy.sort((a, b) => {
+    const filtered = taskCopy.filter((task) =>
+      task.title.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+    );
+    filtered.sort((a, b) => {
       switch (sortBy) {
         case "title":
           return a.title.localeCompare(b.title) * sortOrder;
@@ -39,8 +42,8 @@ const TaskList = () => {
           return 0;
       }
     });
-    return taskCopy;
-  }, [tasks, sortBy, sortOrder]);
+    return filtered;
+  }, [tasks, searchQuery, sortBy, sortOrder]);
 
   if (!tasks) {
     return <p className="text-center">Caricamento task in corso...</p>;
@@ -93,7 +96,7 @@ const TaskList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {sortedTasks.map((task) => (
+                  {filteredAndSortedTasks.map((task) => (
                     <TaskRow key={task.id} task={task} />
                   ))}
                 </tbody>
