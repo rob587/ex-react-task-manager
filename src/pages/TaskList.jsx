@@ -1,7 +1,23 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useContext, useMemo } from "react";
 import { TaskContext } from "../context/TaskContext";
 import TaskRow from "../components/TaskRow";
+
+const useDebounce = (callback, delay) => {
+  const timeoutRef = React.useRef(null);
+
+  return useCallback(
+    (...args) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
+        callback(...args);
+      }, delay);
+    },
+    [callback, delay]
+  );
+};
 
 const TaskList = () => {
   const { tasks } = useContext(TaskContext);
@@ -16,6 +32,16 @@ const TaskList = () => {
       setSortBy(column);
       setSortOrder(1);
     }
+  };
+
+  const updateSearchQuery = useCallback((query) => {
+    setSearchQuery(query);
+  }, []);
+
+  const debouncedSetSearchQuery = useDebounce(updateSearchQuery, 300);
+
+  const handleInputChange = (e) => {
+    debouncedSetSearchQuery(e.target.value);
   };
 
   const filteredAndSortedTasks = useMemo(() => {
