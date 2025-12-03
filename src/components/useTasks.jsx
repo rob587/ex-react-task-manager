@@ -19,7 +19,7 @@ function useTasks() {
       } catch (error) {
         console.error("Problema nel recuperare i dati", error);
       } finally {
-        setIsLoading(false); // <-- AGGIUNGI QUESTO BLOCCO
+        setIsLoading(false);
       }
     };
     fetchTasks();
